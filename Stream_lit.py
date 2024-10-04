@@ -116,7 +116,7 @@ with tab2:
 
 
 with tab3:
-    data = pd.read_csv('data_cleaned_final.csv')
+    #data = pd.read_csv('data_cleaned_final.csv')
 
     #st.set_page_config(page_title="Talabat Analysis", initial_sidebar_state='expanded')
 
@@ -140,7 +140,7 @@ with tab3:
     st.markdown('''#### **Here is some of our humble analysis:**''')
 
 # Top 5 Cities by Order Count
-    top_5_cities = data['City'].value_counts().nlargest(5)
+    top_5_cities = df['City'].value_counts().nlargest(5)
 
 # Plotting Top 5 Cities
 
@@ -151,7 +151,7 @@ with tab3:
     st.divider()
 
 # Calculate average order value per city
-    average_order_value_by_city = data.groupby('City')['gmv_amount_lc'].mean().nlargest(10)
+    average_order_value_by_city = df.groupby('City')['gmv_amount_lc'].mean().nlargest(10)
 
 # Plotting Average Order Value by City
     fig = px.bar(x=average_order_value_by_city.values, y=average_order_value_by_city.index, orientation='h',
@@ -161,7 +161,7 @@ with tab3:
     st.divider()
 
 # Calculate success rate per platform
-    successful_orders_by_platform = data.groupby('platform')['is_successful'].mean() * 100
+    successful_orders_by_platform = df.groupby('platform')['is_successful'].mean() * 100
 
 # Plotting Successful Orders by Platform
     fig = px.bar(successful_orders_by_platform, x=successful_orders_by_platform.index,
@@ -173,7 +173,7 @@ with tab3:
 
 
 # Calculate average actual and promised delivery time
-    average_times = data[['actual_delivery_time', 'promised_delivery_time']].mean()
+    average_times = df[['actual_delivery_time', 'promised_delivery_time']].mean()
 
 # Plotting Average Delivery Time vs. Promised Time
     fig = px.bar(x=average_times.index, y=average_times.values,
@@ -184,10 +184,10 @@ with tab3:
 
 
 # Calculate delivery fee as a percentage of basket amount
-    data['delivery_fee_percentage'] = (data['delivery_fee_amount_lc'] / data['basket_amount_lc']) * 100
+    df['delivery_fee_percentage'] = (df['delivery_fee_amount_lc'] / data['basket_amount_lc']) * 100
 
 # Plot delivery fee percentage distribution
-    fig = px.histogram(data, x='delivery_fee_percentage', nbins=50,
+    fig = px.histogram(df, x='delivery_fee_percentage', nbins=50,
                    labels={'delivery_fee_percentage': 'Delivery Fee as % of Basket Amount'},
                    title='Distribution of Delivery Fee as Percentage of Basket Amount')
     st.plotly_chart(fig)
@@ -197,7 +197,7 @@ with tab3:
 
 
 # Calculate success rate by city and platform
-    success_rate_city_platform = data.groupby(['City', 'platform'])['is_successful'].mean().unstack() * 100
+    success_rate_city_platform = df.groupby(['City', 'platform'])['is_successful'].mean().unstack() * 100
 
 # Plotting Success Rate by City and Platform
     fig = px.imshow(success_rate_city_platform,
