@@ -9,7 +9,7 @@ import numpy as np
 import zipfile
 
 with zipfile.ZipFile('data_cleaned_final.zip', 'r') as zip_ref:
-    zip_ref.extractall('Talabat')
+    zip_ref.extractall('direction')
     df=pd.read_csv("data_cleaned_final.csv")
 
 
